@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Structured Query Language Introduction | 伍夜黃昏之時</title><meta name="description" content="前言SQL 原名為 Structured Query Language（念法為 sequel 或單念字母 S.Q.L.）稱為結構化查詢語言，用於查詢、更新及管理關聯式資料庫（Relational Database）的語言，也可以從資料庫擷取、排序或篩選特定的資料。 資料庫資料庫(Database)可稱為 DB，為一個可以存放大量資料集合的地方。 資料庫管理系統資料庫管理系統(Database Ma"><meta name="keywords" content="SQL,DDL,DML,DQL,DCL,TCL"><meta name="author" content="Riley Lin"><meta name="copyright" content="Riley Lin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Structured Query Language Introduction"><meta name="twitter:description" content="前言SQL 原名為 Structured Query Language（念法為 sequel 或單念字母 S.Q.L.）稱為結構化查詢語言，用於查詢、更新及管理關聯式資料庫（Relational Database）的語言，也可以從資料庫擷取、排序或篩選特定的資料。 資料庫資料庫(Database)可稱為 DB，為一個可以存放大量資料集合的地方。 資料庫管理系統資料庫管理系統(Database Ma"><meta name="twitter:image" content="http://rileylin91.net/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Structured Query Language Introduction"><meta property="og:url" content="http://rileylin91.net/2020/05/06/SQL-Introduction/"><meta property="og:site_name" content="伍夜黃昏之時"><meta property="og:description" content="前言SQL 原名為 Structured Query Language（念法為 sequel 或單念字母 S.Q.L.）稱為結構化查詢語言，用於查詢、更新及管理關聯式資料庫（Relational Database）的語言，也可以從資料庫擷取、排序或篩選特定的資料。 資料庫資料庫(Database)可稱為 DB，為一個可以存放大量資料集合的地方。 資料庫管理系統資料庫管理系統(Database Ma"><meta property="og:image" content="http://rileylin91.net/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><meta property="article:published_time" content="2020-05-05T16:00:00.000Z"><meta property="article:modified_time" content="2020-06-03T10:40:17.615Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://rileylin91.net/2020/05/06/SQL-Introduction/"><link rel="prev" title="Hello World" href="http://rileylin91.net/2020/06/03/hello-world/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days',
+  runtime: true,
+  copyright: {"languages":{"author":"Author: Riley Lin","link":"Link: ","source":"Source: 伍夜黃昏之時","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source."}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/202015_200603_0048_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">2</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">6</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">Categories</div><div class="length_num">1</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#資料庫"><span class="toc-number">1.1.</span> <span class="toc-text">資料庫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#資料庫管理系統"><span class="toc-number">1.2.</span> <span class="toc-text">資料庫管理系統</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#資料庫管理員"><span class="toc-number">1.3.</span> <span class="toc-text">資料庫管理員</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#資料庫系統語言"><span class="toc-number">2.</span> <span class="toc-text">資料庫系統語言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DDL"><span class="toc-number">2.1.</span> <span class="toc-text">DDL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DML"><span class="toc-number">2.2.</span> <span class="toc-text">DML</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DQL"><span class="toc-number">2.3.</span> <span class="toc-text">DQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DCL"><span class="toc-number">2.4.</span> <span class="toc-text">DCL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCL"><span class="toc-number">2.5.</span> <span class="toc-text">TCL</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">伍夜黃昏之時</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Structured Query Language Introduction</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="Created 2020-05-06 00:00:00"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2020-05-06</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="Updated 2020-06-03 18:40:17"><i class="fa fa-history" aria-hidden="true"></i> Updated 2020-06-03</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/MS-SQL-%E5%9F%BA%E7%A4%8E%E7%9F%A5%E8%AD%98/">MS SQL 基礎知識</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>Post View:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>SQL</strong> 原名為 <strong>Structured Query Language</strong>（念法為 sequel 或單念字母 S.Q.L.）稱為<strong>結構化查詢語言</strong>，用於查詢、更新及管理關聯式資料庫（Relational Database）的語言，也可以從資料庫擷取、排序或篩選特定的資料。</p>
+<h3 id="資料庫"><a href="#資料庫" class="headerlink" title="資料庫"></a>資料庫</h3><p><strong>資料庫(Database)</strong>可稱為 <strong>DB</strong>，為一個可以存放大量資料集合的地方。</p>
+<h3 id="資料庫管理系統"><a href="#資料庫管理系統" class="headerlink" title="資料庫管理系統"></a>資料庫管理系統</h3><p><strong>資料庫管理系統(Database Management System)</strong>簡稱為 <strong>DBMS</strong>，DMBS 提供資料庫的資料管理介面，供使用者對資料庫進行 CRUD 等動作，同時也提供管理使用者的介面，去設定每個使用者擁有不同的資料庫權限，或用於一般人員及專業人員對資料庫的使用權利，確保重要資料只賦予相關使用者操作，或避免資料竊取和破壞，以及確保資料庫的資料安全，如 DBA 需要擁有較高的使用權限來管理資料庫，而一般使用者只需要簡單查詢功能的權限。</p>
+<p>DBMS 除提供介面外，大部分還可控制效能以及備份機制，依照資料庫實際使用情形提高或降低效能，調整為資料庫最適合的狀態；為避免資料受到不可抗力因素的破壞，開啟備份機制確保資料可以保存及回朔於最後一次備份時間點。</p>
+<h3 id="資料庫管理員"><a href="#資料庫管理員" class="headerlink" title="資料庫管理員"></a>資料庫管理員</h3><p><strong>資料庫管理員(Database Administrator)</strong>簡稱為 <strong>DBA</strong>，為負責管理資料庫系統的專業人員，負責確保資料庫系統效能最佳化與當機緊急處理等工作。</p>
+<p>上述彼此之間的關係圖如下<br><img src="https://static.coderbridge.com/img/RileyLin91/5a2d3978ff2242f6b33009987116a12c.png" alt=""></p>
+<h2 id="資料庫系統語言"><a href="#資料庫系統語言" class="headerlink" title="資料庫系統語言"></a>資料庫系統語言</h2><h3 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h3><blockquote>
+<p><strong>DDL (Data Definition Language)</strong><br>資料定義語言</p>
+</blockquote>
+<p>用來定義概念和實體階層的內容與其存在的關係，即為定義資料庫、資料表、預存程序、觸發程序等物件，是一種管理資料庫結構的語言，而這些特殊描述儲存於資料字典(Repository)的檔案中，該檔案為一種 Metadata。</p>
+<p>主要指令語法有</p>
+<ul>
+<li>CREATE：建立物件</li>
+<li>ALTER：修改物件</li>
+<li>DROP：刪除物件</li>
+</ul>
+<h3 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h3><blockquote>
+<p><strong>DML (Data Manipulation Language)</strong><br>資料操縱語言</p>
+</blockquote>
+<p>允許使用者存取及處理資料庫中的資料，包含新增、更新、刪除等動作</p>
+<p>主要指令語法有</p>
+<ul>
+<li>INSERT：新增資料</li>
+<li>UPDATE：更新資料</li>
+<li>DELETE：刪除資料</li>
+</ul>
+<h3 id="DQL"><a href="#DQL" class="headerlink" title="DQL"></a>DQL</h3><blockquote>
+<p><strong>DQL (Data Query Language)</strong><br>資料查詢語言</p>
+</blockquote>
+<p>負責資料查詢，不對資料本身有修改的語句，指令只有一個</p>
+<ul>
+<li>SELECT：查詢資料庫中的資料</li>
+</ul>
+<hr>
+<h3 id="DCL"><a href="#DCL" class="headerlink" title="DCL"></a>DCL</h3><blockquote>
+<p><strong>DCL (Data Control Language)</strong><br>資料控制語言</p>
+</blockquote>
+<p>用於處理資料庫權限及安全設定</p>
+<p>主要指令語法有</p>
+<ul>
+<li>GRANT：賦予使用者對物件的使用權限</li>
+<li>REVOKE：取消使用者對物件的使用權限</li>
+</ul>
+<h3 id="TCL"><a href="#TCL" class="headerlink" title="TCL"></a>TCL</h3><blockquote>
+<p><strong>TCL (Transaction Control Language)</strong><br>交易控制語言</p>
+</blockquote>
+<p>交易的觀念為「每次交易成功時，對交易期間內所有變更資料做異動，交易失敗時，則清除所有資料異動之動作，回復交易前的樣貌」。</p>
+<ul>
+<li>START TRANSACTION (BEGIN, BEGIN WORK)：開始交易作業</li>
+<li>COMMIT：交易完成作業</li>
+<li>ROLLBACK：交易作業異常，以變動資料回滾至交易開始的狀態</li>
+</ul>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Riley Lin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://rileylin91.net/2020/05/06/SQL-Introduction/">http://rileylin91.net/2020/05/06/SQL-Introduction/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SQL/">SQL</a><a class="post-meta__tags" href="/tags/DDL/">DDL</a><a class="post-meta__tags" href="/tags/DML/">DML</a><a class="post-meta__tags" href="/tags/DQL/">DQL</a><a class="post-meta__tags" href="/tags/DCL/">DCL</a><a class="post-meta__tags" href="/tags/TCL/">TCL</a></div><div class="post_share"></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/06/03/hello-world/"><img class="prev_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Hello World</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By Riley Lin</div><div class="framework-info"><span>Driven </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="Read Mode"></i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="Dark Mode"></i></div><div id="rightside-config-show"><div id="rightside_config" title="Setting"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="Table of Contents" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="Back to top" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script></body></html>
