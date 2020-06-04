@@ -84,11 +84,11 @@ hr:hover:before {
 }
 hr:before {
   position: absolute;
-  top: -10px;
+  top: ;
   left: 5%;
   z-index: 1;
   color: #99a9bf;
-  content: '\f0c4';
+  content: '';
   font-style: normal;
   font-variant: normal;
   font-size: 20px;
@@ -3926,7 +3926,7 @@ img {
   text-decoration: none;
 }
 #article-container a {
-  color: #9aff02;
+  color: #eac100;
 }
 #article-container a:hover {
   text-decoration: underline;
@@ -4130,18 +4130,13 @@ img {
   transition: all 0.5s;
 }
 #rightside #rightside-config-hide {
-  -webkit-transform: translate(35px, 0);
-  -moz-transform: translate(35px, 0);
-  -o-transform: translate(35px, 0);
-  -ms-transform: translate(35px, 0);
-  transform: translate(35px, 0);
+  -webkit-transform: translate(0, 0);
+  -moz-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
 }
 #rightside .rightside-in {
-  -webkit-transform: translate(0, 0) !important;
-  -moz-transform: translate(0, 0) !important;
-  -o-transform: translate(0, 0) !important;
-  -ms-transform: translate(0, 0) !important;
-  transform: translate(0, 0) !important;
   -webkit-animation: rightsideIn 0.3s;
   -moz-animation: rightsideIn 0.3s;
   -o-animation: rightsideIn 0.3s;
@@ -4154,6 +4149,11 @@ img {
   -o-animation: rightsideOut 0.3s;
   -ms-animation: rightsideOut 0.3s;
   animation: rightsideOut 0.3s;
+  -webkit-transform: translate(30px, 0) !important;
+  -moz-transform: translate(30px, 0) !important;
+  -o-transform: translate(30px, 0) !important;
+  -ms-transform: translate(30px, 0) !important;
+  transform: translate(30px, 0) !important;
 }
 #rightside > div > i,
 #rightside > div > a,
@@ -4165,14 +4165,15 @@ img {
   background-color: #5cadad;
   color: #fff;
   text-align: center;
-  font-size: 16px;
+  text-decoration: none;
+  font-size: 26px;
   line-height: 29px;
   cursor: pointer;
 }
 #rightside > div > i:hover,
 #rightside > div > a:hover,
 #rightside > div > div:hover {
-  background-color: #99a9bf;
+  background-color: $ruby;
 }
 #rightside #rightside_config i {
   -webkit-animation: avatar_turn_around 2s linear infinite;
@@ -4187,70 +4188,6 @@ img {
 @media screen and (max-width: 1024px) {
   #rightside #mobile-toc-button {
     display: block;
-  }
-}
-@-moz-keyframes rightsideIn {
-  0% {
-    -webkit-transform: translate(30px, 0);
-    -moz-transform: translate(30px, 0);
-    -o-transform: translate(30px, 0);
-    -ms-transform: translate(30px, 0);
-    transform: translate(30px, 0);
-  }
-  100% {
-    -webkit-transform: translate(0, 0);
-    -moz-transform: translate(0, 0);
-    -o-transform: translate(0, 0);
-    -ms-transform: translate(0, 0);
-    transform: translate(0, 0);
-  }
-}
-@-webkit-keyframes rightsideIn {
-  0% {
-    -webkit-transform: translate(30px, 0);
-    -moz-transform: translate(30px, 0);
-    -o-transform: translate(30px, 0);
-    -ms-transform: translate(30px, 0);
-    transform: translate(30px, 0);
-  }
-  100% {
-    -webkit-transform: translate(0, 0);
-    -moz-transform: translate(0, 0);
-    -o-transform: translate(0, 0);
-    -ms-transform: translate(0, 0);
-    transform: translate(0, 0);
-  }
-}
-@-o-keyframes rightsideIn {
-  0% {
-    -webkit-transform: translate(30px, 0);
-    -moz-transform: translate(30px, 0);
-    -o-transform: translate(30px, 0);
-    -ms-transform: translate(30px, 0);
-    transform: translate(30px, 0);
-  }
-  100% {
-    -webkit-transform: translate(0, 0);
-    -moz-transform: translate(0, 0);
-    -o-transform: translate(0, 0);
-    -ms-transform: translate(0, 0);
-    transform: translate(0, 0);
-  }
-}
-@keyframes rightsideIn {
-  0% {
-    -webkit-transform: translate(30px, 0);
-    -moz-transform: translate(30px, 0);
-    -o-transform: translate(30px, 0);
-    -ms-transform: translate(30px, 0);
-    transform: translate(30px, 0);
-  }
-  100% {
-    -webkit-transform: translate(0, 0);
-    -moz-transform: translate(0, 0);
-    -o-transform: translate(0, 0);
-    -ms-transform: translate(0, 0);
-    transform: translate(0, 0);
   }
 }
 @-moz-keyframes rightsideOut {
@@ -4315,6 +4252,70 @@ img {
     -o-transform: translate(30px, 0);
     -ms-transform: translate(30px, 0);
     transform: translate(30px, 0);
+  }
+}
+@-moz-keyframes rightsideIn {
+  0% {
+    -webkit-transform: translate(30px, 0);
+    -moz-transform: translate(30px, 0);
+    -o-transform: translate(30px, 0);
+    -ms-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+}
+@-webkit-keyframes rightsideIn {
+  0% {
+    -webkit-transform: translate(30px, 0);
+    -moz-transform: translate(30px, 0);
+    -o-transform: translate(30px, 0);
+    -ms-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+}
+@-o-keyframes rightsideIn {
+  0% {
+    -webkit-transform: translate(30px, 0);
+    -moz-transform: translate(30px, 0);
+    -o-transform: translate(30px, 0);
+    -ms-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+}
+@keyframes rightsideIn {
+  0% {
+    -webkit-transform: translate(30px, 0);
+    -moz-transform: translate(30px, 0);
+    -o-transform: translate(30px, 0);
+    -ms-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
   }
 }
 #sidebar {
