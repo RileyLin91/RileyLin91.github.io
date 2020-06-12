@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【MS SQL】數值函數（Mathematical Functions） | 伍夜黃昏之時</title><meta name="description" content="前言SQL 內建函數有多種，而最常使用也是三大函數分別為聚合函數（Aggregate Functions）&amp; 字串函數（String Functions） &amp; 數值函數（Mathematical Functions）。 正文數值函數主要用於數值處理或計算，雖然聚合函數也是處理數值，但整體看起來的使用上還是不同的，數值函數比較偏向於複雜的運算，直接來看會比較有感。 下列為 SQL S"><meta name="keywords" content="MS SQL,SQL Database Functions,Mathematical Functions,ABS,ROUND,FLOOR,CEILING,SIGN,LOG,LOG10,SQRT,POWER,SQUARE,PI"><meta name="author" content="Riley Lin"><meta name="copyright" content="Riley Lin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="【MS SQL】數值函數（Mathematical Functions）"><meta name="twitter:description" content="前言SQL 內建函數有多種，而最常使用也是三大函數分別為聚合函數（Aggregate Functions）&amp; 字串函數（String Functions） &amp; 數值函數（Mathematical Functions）。 正文數值函數主要用於數值處理或計算，雖然聚合函數也是處理數值，但整體看起來的使用上還是不同的，數值函數比較偏向於複雜的運算，直接來看會比較有感。 下列為 SQL S"><meta name="twitter:image" content="http://rileylin91.github.io/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><meta property="og:type" content="article"><meta property="og:title" content="【MS SQL】數值函數（Mathematical Functions）"><meta property="og:url" content="http://rileylin91.github.io/2020/06/12/MSSQL-15-MathematicalFunctions/"><meta property="og:site_name" content="伍夜黃昏之時"><meta property="og:description" content="前言SQL 內建函數有多種，而最常使用也是三大函數分別為聚合函數（Aggregate Functions）&amp; 字串函數（String Functions） &amp; 數值函數（Mathematical Functions）。 正文數值函數主要用於數值處理或計算，雖然聚合函數也是處理數值，但整體看起來的使用上還是不同的，數值函數比較偏向於複雜的運算，直接來看會比較有感。 下列為 SQL S"><meta property="og:image" content="http://rileylin91.github.io/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><meta property="article:published_time" content="2020-06-12T09:46:00.000Z"><meta property="article:modified_time" content="2020-06-12T11:20:43.412Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://rileylin91.github.io/2020/06/12/MSSQL-15-MathematicalFunctions/"><link rel="next" title="【MS SQL】字串函數（String Functions）" href="http://rileylin91.github.io/2020/06/12/MSSQL-14-StringFunctions/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days',
+  runtime: true,
+  copyright: {"languages":{"author":"Author: Riley Lin","link":"Link: ","source":"Source: 伍夜黃昏之時","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source."}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/202015_200603_0048_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">16</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">81</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">Categories</div><div class="length_num">4</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ABS"><span class="toc-number">2.1.</span> <span class="toc-text">ABS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ROUND"><span class="toc-number">2.2.</span> <span class="toc-text">ROUND</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FLOOR"><span class="toc-number">2.3.</span> <span class="toc-text">FLOOR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CEILING"><span class="toc-number">2.4.</span> <span class="toc-text">CEILING</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SIGN"><span class="toc-number">2.5.</span> <span class="toc-text">SIGN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LOG"><span class="toc-number">2.6.</span> <span class="toc-text">LOG</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LOG10"><span class="toc-number">2.7.</span> <span class="toc-text">LOG10</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQRT"><span class="toc-number">2.8.</span> <span class="toc-text">SQRT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POWER"><span class="toc-number">2.9.</span> <span class="toc-text">POWER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQUARE"><span class="toc-number">2.10.</span> <span class="toc-text">SQUARE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PI"><span class="toc-number">2.11.</span> <span class="toc-text">PI</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#結語"><span class="toc-number">3.</span> <span class="toc-text">結語</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">伍夜黃昏之時</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">【MS SQL】數值函數（Mathematical Functions）</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="Created 2020-06-12 17:46:00"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2020-06-12</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="Updated 2020-06-12 19:20:43"><i class="fa fa-history" aria-hidden="true"></i> Updated 2020-06-12</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/MS-SQL/">MS SQL</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/MS-SQL/Basic/">Basic</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>Word count:</span><span class="word-count">883</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>Reading time: 3 min</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>Post View:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>SQL 內建函數有多種，而最常使用也是三大函數分別為聚合函數（Aggregate Functions）&amp; 字串函數（String Functions） &amp; 數值函數（Mathematical Functions）。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>數值函數主要用於數值處理或計算，雖然聚合函數也是處理數值，但整體看起來的使用上還是不同的，數值函數比較偏向於複雜的運算，直接來看會比較有感。</p>
+<p>下列為 SQL Server 2019 提供的數值函數，這裡不會全部做介紹，特意分類為會介紹與不會介紹兩個標題。</p>
+<table>
+<thead>
+<tr>
+<th>本文會介紹</th>
+<th></th>
+<th>不會介紹</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ABS</td>
+<td>LOG</td>
+<td>SIN</td>
+<td>ASIN</td>
+</tr>
+<tr>
+<td>ROUND</td>
+<td>LOG10</td>
+<td>COS</td>
+<td>ACOS</td>
+</tr>
+<tr>
+<td>FLOOR</td>
+<td>SQRT</td>
+<td>TAN</td>
+<td>COT</td>
+</tr>
+<tr>
+<td>CEILING</td>
+<td>POWER</td>
+<td>ATAN</td>
+<td>ATN2</td>
+</tr>
+<tr>
+<td>SIGN</td>
+<td>SQUARE</td>
+<td>DEGREES</td>
+<td>RADIANS</td>
+</tr>
+<tr>
+<td></td>
+<td>PI</td>
+<td>EXP</td>
+<td>RAND</td>
+</tr>
+</tbody></table>
+<h3 id="ABS"><a href="#ABS" class="headerlink" title="ABS"></a>ABS</h3><p>取得指定數值的絕對值，零的絕對值還是零</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：ABS(num)</strong></p>
+<p>回傳 10 &amp; -10 的絕對值 <code>SELECT ABS(10) AS '10' , ABS(-10) AS '-10'</code></p>
+<img src="./MSSQL_MathematicalFunctions-ABS.png" align="left">
+
+<h3 id="ROUND"><a href="#ROUND" class="headerlink" title="ROUND"></a>ROUND</h3><p>對指定的數值四捨五入，指定的長度來決定四捨五入到第幾位，特別注意的是，若要被捨棄的數值為 5，則會依照前一位數為奇數或偶數來決定捨入後的結果，通常奇數為捨去，偶數為進位。</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：ROUND(num, p)</strong></p>
+<ul>
+<li><p>四捨五入到小數第二位 <code>SELECT ROUND(123.123, 2)</code></p>
+<img src="./MSSQL_MathematicalFunctions-ROUND01.png" align="left">
+</li>
+<li><p>四捨五入到十位數 <code>SELECT ROUND(123.123, -1)</code></p>
+<img src="./MSSQL_MathematicalFunctions-ROUND02.png" align="left">
+</li>
+<li><p>當數值為5，前一位數為奇數，四捨五入到小數第二位 <code>SELECT ROUND(123.115, 2)</code></p>
+<img src="./MSSQL_MathematicalFunctions-ROUND03.png" align="left">
+</li>
+<li><p>當數值為5，前一位數為偶數，四捨五入到小數第二位 <code>SELECT ROUND(123.125, 2)</code></p>
+<img src="./MSSQL_MathematicalFunctions-ROUND04.png" align="left">
+
+</li>
+</ul>
+<h3 id="FLOOR"><a href="#FLOOR" class="headerlink" title="FLOOR"></a>FLOOR</h3><p>返回指定數值的最大整數（官方上是寫最大，但我運出來的結果是最小，貌似是 float 是近似值的關係…）</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：FLOOR(num)</strong></p>
+<p>取得 123.123 及 -123.123 的最大整數 <code>SELECT FLOOR(123.123) AS '123.123', FLOOR(-123.123) AS '-123.123'</code></p>
+<img src="./MSSQL_MathematicalFunctions-FLOOR.png" align="left">
+
+<h3 id="CEILING"><a href="#CEILING" class="headerlink" title="CEILING"></a>CEILING</h3><p>返回指定數值的最小整數（官方上是寫最小，但我運出來的結果是最大，貌似是 float 是近似值的關係…）</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：CEILING(num)</strong></p>
+<p>取得 123.123 及 -123.123 的最小整數 <code>SELECT FLOOR(123.123) AS '123.123', FLOOR(-123.123) AS '-123.123'</code></p>
+<img src="./MSSQL_MathematicalFunctions-CEILING.png" align="left">
+
+<h3 id="SIGN"><a href="#SIGN" class="headerlink" title="SIGN"></a>SIGN</h3><p>對指定數值或運算式的結果返回 1（正數） 或 0 或 -1（負數）</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：SIGN(num)</strong></p>
+<p>取得 123 &amp; -123 &amp; 123-123 返回的結果</p>
+<figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  <span class="keyword">SIGN</span>(<span class="number">123</span>) <span class="keyword">AS</span> <span class="string">'123'</span>, </span><br><span class="line">  <span class="keyword">SIGN</span>(<span class="number">-123</span>) <span class="keyword">AS</span> <span class="string">'-123'</span>, </span><br><span class="line">  <span class="keyword">SIGN</span>(<span class="number">123</span><span class="number">-123</span>) <span class="keyword">AS</span> <span class="string">'123相減'</span></span><br></pre></td></tr></tbody></table></figure>
+
+<img src="./MSSQL_MathematicalFunctions-SIGN.png" align="left">
+
+<h3 id="LOG"><a href="#LOG" class="headerlink" title="LOG"></a>LOG</h3><p>返回指定數值的自然對數，base 為基底數，base 可用可不用</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：LOG(num, base)</strong></p>
+<p>取得 10 的自然對數 &amp; 10 以 10 為底的自然對數 <code>SELECT LOG(10), LOG(10,10)</code></p>
+<img src="./MSSQL_MathematicalFunctions-LOG.png" align="left">
+
+<h3 id="LOG10"><a href="#LOG10" class="headerlink" title="LOG10"></a>LOG10</h3><p>返回指定數值以 10 為底的對數，如果基底為 10 使用該函數就更方便。（小迷思：MySQL 有提供 LOG2 函數，MSSQL 是沒有低）</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：LOG(num)</strong></p>
+<p>取得數值 123 以 10 為底的對數 <code>SELECT LOG10(123)</code></p>
+<img src="./MSSQL_MathematicalFunctions-LOG10.png" align="left">
+
+<h3 id="SQRT"><a href="#SQRT" class="headerlink" title="SQRT"></a>SQRT</h3><p>返回指定數值的平方根</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：SQRT(num)</strong></p>
+<p>取得 100 &amp; 123 的平方根 <code>SELECT SQRT(100) AS '100', SQRT(123) AS '123'</code></p>
+<img src="./MSSQL_MathematicalFunctions-SQRT.png" align="left">
+
+<h3 id="POWER"><a href="#POWER" class="headerlink" title="POWER"></a>POWER</h3><p>返回指定數值的 N 次方</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：POWER(num, n)</strong></p>
+<p>取得 10 的平方及 10 的立方 <code>SELECT POWER(10, 2), POWER(10, 3)</code></p>
+<img src="./MSSQL_MathematicalFunctions-POWER.png" align="left">
+
+<h3 id="SQUARE"><a href="#SQUARE" class="headerlink" title="SQUARE"></a>SQUARE</h3><p>返回指定數值的平方</p>
+<p>:closed_book: <strong>語法：SQUARE(num)</strong> <code>SELECT SQUARE(10), SQUARE(10.1)</code></p>
+<img src="./MSSQL_MathematicalFunctions-SQUARE.png" align="left">
+
+<h3 id="PI"><a href="#PI" class="headerlink" title="PI"></a>PI</h3><p>回傳 π 的值 </p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：PI()</strong></p>
+<p><code>SELECT PI()</code></p>
+<img src="./MSSQL_MathematicalFunctions-PI.png" align="left">
+
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>三角函數平常使用上較少，不做特別介紹，相關使用方法請洽官網。</p>
+<hr>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a><strong><em>Reference</em></strong></h2><p><a href="https://docs.microsoft.com/zh-tw/sql/t-sql/functions/mathematical-functions-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">Mathematical Functions</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script></div><hr><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MS-SQL/">MS SQL</a><a class="post-meta__tags" href="/tags/SQL-Database-Functions/">SQL Database Functions</a><a class="post-meta__tags" href="/tags/Mathematical-Functions/">Mathematical Functions</a><a class="post-meta__tags" href="/tags/ABS/">ABS</a><a class="post-meta__tags" href="/tags/ROUND/">ROUND</a><a class="post-meta__tags" href="/tags/FLOOR/">FLOOR</a><a class="post-meta__tags" href="/tags/CEILING/">CEILING</a><a class="post-meta__tags" href="/tags/SIGN/">SIGN</a><a class="post-meta__tags" href="/tags/LOG/">LOG</a><a class="post-meta__tags" href="/tags/LOG10/">LOG10</a><a class="post-meta__tags" href="/tags/SQRT/">SQRT</a><a class="post-meta__tags" href="/tags/POWER/">POWER</a><a class="post-meta__tags" href="/tags/SQUARE/">SQUARE</a><a class="post-meta__tags" href="/tags/PI/">PI</a></div><div class="post_share"></div></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Riley Lin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://rileylin91.github.io/2020/06/12/MSSQL-15-MathematicalFunctions/">http://rileylin91.github.io/2020/06/12/MSSQL-15-MathematicalFunctions/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/2020/06/12/MSSQL-14-StringFunctions/"><img class="next_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">【MS SQL】字串函數（String Functions）</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/06/12/MSSQL-13-AggregateFunctions/" title="【MS SQL】聚合函數（Aggregate Functions）"><img class="relatedPosts_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-06-12</div><div class="relatedPosts_title">【MS SQL】聚合函數（Aggregate Functions）</div></div></a></div><div class="relatedPosts_item"><a href="/2020/06/12/MSSQL-14-StringFunctions/" title="【MS SQL】字串函數（String Functions）"><img class="relatedPosts_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-06-12</div><div class="relatedPosts_title">【MS SQL】字串函數（String Functions）</div></div></a></div><div class="relatedPosts_item"><a href="/2020/05/06/MSSQL-1-SQL-Introduction/" title="【MS SQL】Structured Query Language Introduction"><img class="relatedPosts_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-06</div><div class="relatedPosts_title">【MS SQL】Structured Query Language Introduction</div></div></a></div></div><div class="clear_both"></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 <i class="fa fa-rocket fa-spin" aria-hidden="true" style="color:yellow"></i> Riley Lin</div><div class="framework-info"><span>Driven </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="Read Mode"></i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="Dark Mode"></i></div><div id="rightside-config-show"><div id="rightside_config" title="Setting"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="Table of Contents" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="Back to top" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script></body></html>
