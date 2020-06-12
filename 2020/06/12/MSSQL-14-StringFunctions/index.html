@@ -1,0 +1,239 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【MS SQL】字串函數（String Functions） | 伍夜黃昏之時</title><meta name="description" content="前言SQL 內建函數有多種，而最常使用也是三大函數分別為聚合函數（Aggregate Functions）&amp; 字串函數（String Functions） &amp; 數值函數（Mathematical Functions）。 正文字串函數用於字串處理，函數量相當多種，常用的函數也不少，包含 LEFT、RIGHT、LOWER、UPPER…等。 常用字串函數有：  ASCII CHAR UN"><meta name="keywords" content="MS SQL,SQL Database Functions,String Functions,ASCII,CHAR,UNICODE,NCHAR,LEFT,RIGHT,UPPER,LOWER,LTRIM,RTRIM,REPLACE,REVERSE,SPACE,SUBSTRING,LEN,REPLICATE,CONCAT,CONCAT_WS,PATINDEX"><meta name="author" content="Riley Lin"><meta name="copyright" content="Riley Lin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="【MS SQL】字串函數（String Functions）"><meta name="twitter:description" content="前言SQL 內建函數有多種，而最常使用也是三大函數分別為聚合函數（Aggregate Functions）&amp; 字串函數（String Functions） &amp; 數值函數（Mathematical Functions）。 正文字串函數用於字串處理，函數量相當多種，常用的函數也不少，包含 LEFT、RIGHT、LOWER、UPPER…等。 常用字串函數有：  ASCII CHAR UN"><meta name="twitter:image" content="http://rileylin91.github.io/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><meta property="og:type" content="article"><meta property="og:title" content="【MS SQL】字串函數（String Functions）"><meta property="og:url" content="http://rileylin91.github.io/2020/06/12/MSSQL-14-StringFunctions/"><meta property="og:site_name" content="伍夜黃昏之時"><meta property="og:description" content="前言SQL 內建函數有多種，而最常使用也是三大函數分別為聚合函數（Aggregate Functions）&amp; 字串函數（String Functions） &amp; 數值函數（Mathematical Functions）。 正文字串函數用於字串處理，函數量相當多種，常用的函數也不少，包含 LEFT、RIGHT、LOWER、UPPER…等。 常用字串函數有：  ASCII CHAR UN"><meta property="og:image" content="http://rileylin91.github.io/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><meta property="article:published_time" content="2020-06-12T04:16:35.000Z"><meta property="article:modified_time" content="2020-06-12T04:38:57.854Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://rileylin91.github.io/2020/06/12/MSSQL-14-StringFunctions/"><link rel="next" title="【MS SQL】聚合函數（Aggregate Functions）" href="http://rileylin91.github.io/2020/06/12/MSSQL-13-AggregateFunctions/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days',
+  runtime: true,
+  copyright: {"languages":{"author":"Author: Riley Lin","link":"Link: ","source":"Source: 伍夜黃昏之時","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source."}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/202015_200603_0048_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">15</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">68</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">Categories</div><div class="length_num">4</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ASCII"><span class="toc-number">2.1.</span> <span class="toc-text">ASCII</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CHAR"><span class="toc-number">2.2.</span> <span class="toc-text">CHAR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UNICODE"><span class="toc-number">2.3.</span> <span class="toc-text">UNICODE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NCHAR"><span class="toc-number">2.4.</span> <span class="toc-text">NCHAR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LEFT"><span class="toc-number">2.5.</span> <span class="toc-text">LEFT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RIGHT"><span class="toc-number">2.6.</span> <span class="toc-text">RIGHT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UPPER"><span class="toc-number">2.7.</span> <span class="toc-text">UPPER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LOWER"><span class="toc-number">2.8.</span> <span class="toc-text">LOWER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LTRIM"><span class="toc-number">2.9.</span> <span class="toc-text">LTRIM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RTRIM"><span class="toc-number">2.10.</span> <span class="toc-text">RTRIM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#REPLACE"><span class="toc-number">2.11.</span> <span class="toc-text">REPLACE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#REVERSE"><span class="toc-number">2.12.</span> <span class="toc-text">REVERSE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SPACE"><span class="toc-number">2.13.</span> <span class="toc-text">SPACE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SUBSTRING"><span class="toc-number">2.14.</span> <span class="toc-text">SUBSTRING</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LEN"><span class="toc-number">2.15.</span> <span class="toc-text">LEN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#REPLICATE"><span class="toc-number">2.16.</span> <span class="toc-text">REPLICATE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CONCAT"><span class="toc-number">2.17.</span> <span class="toc-text">CONCAT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CONCAT-WS"><span class="toc-number">2.18.</span> <span class="toc-text">CONCAT_WS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PATINDEX"><span class="toc-number">2.19.</span> <span class="toc-text">PATINDEX</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#結語"><span class="toc-number">3.</span> <span class="toc-text">結語</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">伍夜黃昏之時</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">【MS SQL】字串函數（String Functions）</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="Created 2020-06-12 12:16:35"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2020-06-12</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="Updated 2020-06-12 12:38:57"><i class="fa fa-history" aria-hidden="true"></i> Updated 2020-06-12</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/MS-SQL/">MS SQL</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/MS-SQL/Basic/">Basic</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>Word count:</span><span class="word-count">792</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>Reading time: 3 min</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>Post View:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>SQL 內建函數有多種，而最常使用也是三大函數分別為聚合函數（Aggregate Functions）&amp; 字串函數（String Functions） &amp; 數值函數（Mathematical Functions）。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>字串函數用於字串處理，函數量相當多種，常用的函數也不少，包含 LEFT、RIGHT、LOWER、UPPER…等。</p>
+<p>常用字串函數有：</p>
+<ul>
+<li>ASCII</li>
+<li>CHAR</li>
+<li>UNICODE</li>
+<li>NCHAR</li>
+<li>LEFT</li>
+<li>RIGHT</li>
+<li>UPPER</li>
+<li>LOWER</li>
+<li>LTRIM</li>
+<li>RTRIM</li>
+<li>REPLACE</li>
+<li>REVERSE</li>
+<li>SPACE</li>
+<li>SUBSTRING</li>
+<li>LEN</li>
+<li>REPLICATE</li>
+<li>CONCAT</li>
+<li>CONCAT_WS</li>
+<li>PATINDEX</li>
+</ul>
+<h3 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h3><p>取得字元的 ASCII 碼，相對 ASCII 的函數為 CHAR</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：ASCII(字元)</strong></p>
+<p>查詢 A 與 a 的 ASCII 碼 <code>SELECT ASCII('A') AS A, ASCII('a') AS a</code></p>
+<img src="./MSSQL_StringFunctions-ASCII.png" align="left">
+
+<h3 id="CHAR"><a href="#CHAR" class="headerlink" title="CHAR"></a>CHAR</h3><p>依 ASCII 碼來取得相應字元</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：CHAR(ASCII)</strong></p>
+<p>查詢 ASCII 65 &amp; 97 相對應的字元 <code>SELECT CHAR(65) AS '65', CHAR(97) AS '97'</code></p>
+<img src="./MSSQL_StringFunctions-CHAR.png" align="left">
+
+<h3 id="UNICODE"><a href="#UNICODE" class="headerlink" title="UNICODE"></a>UNICODE</h3><p>找出字元對應的 UNICODE 碼，相對 UNICODE 的函數為 NCHAR</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：UNICODE(字元)</strong></p>
+<p><code>SELECT UNICODE('資')</code></p>
+<img src="./MSSQL_StringFunctions-UNICODE.png" align="left">
+
+<h3 id="NCHAR"><a href="#NCHAR" class="headerlink" title="NCHAR"></a>NCHAR</h3><p>找出字元對應的 UNICODE 碼</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：NCHAR(UNICODE)</strong></p>
+<p><code>SELECT NCHAR(36039) AS '36039'</code></p>
+<img src="./MSSQL_StringFunctions-NCHAR.png" align="left">
+
+<h3 id="LEFT"><a href="#LEFT" class="headerlink" title="LEFT"></a>LEFT</h3><p>取得字串從左邊開始 N 個字元，C 可為欄位或字串</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：LEFT(C, N)、SELECT LEFT(COLUMN, N) FROM TABLE</strong></p>
+<p><code>SELECT LEFT('Microsoft', 3)</code></p>
+<img src="./MSSQL_StringFunctions-LEFT.png" align="left">
+
+<h3 id="RIGHT"><a href="#RIGHT" class="headerlink" title="RIGHT"></a>RIGHT</h3><p>取得字串從右邊開始 N 個字元，C 可為欄位或字串</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：RIGHT(C, N)、SELECT RIGHT(COLUMN, N) FROM TABLE</strong></p>
+<p><code>SELECT RIGHT('Microsoft', 3)</code></p>
+<img src="./MSSQL_StringFunctions-RIGHT.png" align="left">
+
+<h3 id="UPPER"><a href="#UPPER" class="headerlink" title="UPPER"></a>UPPER</h3><p>將欄位或字串轉換為大寫</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：UPPER(STRING)</strong></p>
+<p><code>SELECT UPPER('Microsoft')</code></p>
+<img src="./MSSQL_StringFunctions-UPPER.png" align="left">
+
+<h3 id="LOWER"><a href="#LOWER" class="headerlink" title="LOWER"></a>LOWER</h3><p>將欄位或字串轉換為小寫</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：LOWER(STRING)</strong></p>
+<p><code>SELECT LOWER('Microsoft')</code></p>
+<img src="./MSSQL_StringFunctions-LOWER.png" align="left">
+
+<h3 id="LTRIM"><a href="#LTRIM" class="headerlink" title="LTRIM"></a>LTRIM</h3><p>去除欄位或字串左邊的空白</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：LTRIM(STRING)</strong></p>
+<p><code>SELECT LTRIM('   Microsoft  ')</code></p>
+<img src="./MSSQL_StringFunctions-LTRIM.png" align="left">
+
+<h3 id="RTRIM"><a href="#RTRIM" class="headerlink" title="RTRIM"></a>RTRIM</h3><p>去除欄位或字串右邊的空白</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：RTRIM(STRING)</strong></p>
+<p><code>SELECT RTRIM('   Microsoft  ') AS M</code></p>
+<img src="./MSSQL_StringFunctions-RTRIM.png" align="left">
+
+<p>MS SQL 內沒有 TRIM 函數可以同時去左右空白，需要去頭去尾時可以先使用LTRIM後使用RTRIM</p>
+<p><code>SELECT LTRIM(RTRIM('   Microsoft  ')) AS M</code></p>
+<img src="./MSSQL_StringFunctions-TRIM.png" align="left">
+
+<h3 id="REPLACE"><a href="#REPLACE" class="headerlink" title="REPLACE"></a>REPLACE</h3><p>取代字串中的值，C 為字串，A 為被取代的字串，B 為取代後的字串</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：REPLACE(C, A, B)</strong></p>
+<figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 將 o 取代為 k</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">REPLACE</span>(<span class="string">'Microsoft'</span>, <span class="string">'o'</span>, <span class="string">'k'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<img src="./MSSQL_StringFunctions-REPLACE.png" align="left">
+
+<h3 id="REVERSE"><a href="#REVERSE" class="headerlink" title="REVERSE"></a>REVERSE</h3><p>反轉字串</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：REVERSE(STRING)</strong></p>
+<p><code>SELECT REVERSE('Microsoft')</code></p>
+<img src="./MSSQL_StringFunctions-REVERSE.png" align="left">
+
+<h3 id="SPACE"><a href="#SPACE" class="headerlink" title="SPACE"></a>SPACE</h3><p>生成 N 個空白字元</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：SPACE(N)</strong></p>
+<p><code>SELECT (SPACE(5) + 'Microsoft')</code></p>
+<img src="./MSSQL_StringFunctions-SPACE.png" align="left">
+
+<h3 id="SUBSTRING"><a href="#SUBSTRING" class="headerlink" title="SUBSTRING"></a>SUBSTRING</h3><p>取得字串中指定位置開始的字元，C 為字串，S 為開始位置，E 為字元個數</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：SUBSTRING(C, S, E)</strong></p>
+<figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 取自第二個開始的五個字元</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">SUBSTRING</span>(<span class="string">'Microsoft'</span>, <span class="number">2</span>, <span class="number">5</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<img src="./MSSQL_StringFunctions-SUBSTRING.png" align="left">
+
+<h3 id="LEN"><a href="#LEN" class="headerlink" title="LEN"></a>LEN</h3><p>計算字串共有多少字元</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：LEN(STRING)</strong></p>
+<p><code>SELECT LEN('Microsoft')</code></p>
+<img src="./MSSQL_StringFunctions-LEN.png" align="left">
+
+<h3 id="REPLICATE"><a href="#REPLICATE" class="headerlink" title="REPLICATE"></a>REPLICATE</h3><p>複製字串 N 次</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：REPLICATE(C, N)</strong></p>
+<p><code>SELECT REPLICATE('Microsoft', 3)</code></p>
+<img src="./MSSQL_StringFunctions-REPLICATE.png" align="left">
+
+<h3 id="CONCAT"><a href="#CONCAT" class="headerlink" title="CONCAT"></a>CONCAT</h3><p>串聯兩個以上的字串，也可串聯三個四個，語法中最少要有兩個參數</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：CONCAT(A, B [, C, D…])</strong></p>
+<p><code>SELECT CONCAT('Microsoft', 'Docs')</code></p>
+<img src="./MSSQL_StringFunctions-CONCAT.png" align="left">
+
+<h3 id="CONCAT-WS"><a href="#CONCAT-WS" class="headerlink" title="CONCAT_WS"></a>CONCAT_WS</h3><p>串聯兩個以上的字串，在各個字串前加入指定的符號來分隔</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：CONCAT_WS(S , A, B [, C…])</strong></p>
+<p><code>SELECT CONCAT_WS('-', 'Microsoft', 'Docs')</code></p>
+<img src="./MSSQL_StringFunctions-CONCAT_WS.png" align="left">
+
+<h3 id="PATINDEX"><a href="#PATINDEX" class="headerlink" title="PATINDEX"></a>PATINDEX</h3><p>找出字串內指定字元第一次出現的位置，未找到則返回零</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：PATINDEX(指定字元, 字串)</strong></p>
+<figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 找出字串內有sof的起始位置</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">PATINDEX</span>(<span class="string">'%sof%'</span>, <span class="string">'Microsoft Docs'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<img src="./MSSQL_StringFunctions-PATINDEX.png" align="left">
+
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>字串函數不止上述這些，還有一些比較少用到的，有興趣到官網看看吧！</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a><strong><em>Reference</em></strong></h2><p><a href="https://docs.microsoft.com/zh-tw/sql/t-sql/functions/string-functions-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">String Functions</a></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script></div><hr><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MS-SQL/">MS SQL</a><a class="post-meta__tags" href="/tags/SQL-Database-Functions/">SQL Database Functions</a><a class="post-meta__tags" href="/tags/String-Functions/">String Functions</a><a class="post-meta__tags" href="/tags/ASCII/">ASCII</a><a class="post-meta__tags" href="/tags/CHAR/">CHAR</a><a class="post-meta__tags" href="/tags/UNICODE/">UNICODE</a><a class="post-meta__tags" href="/tags/NCHAR/">NCHAR</a><a class="post-meta__tags" href="/tags/LEFT/">LEFT</a><a class="post-meta__tags" href="/tags/RIGHT/">RIGHT</a><a class="post-meta__tags" href="/tags/UPPER/">UPPER</a><a class="post-meta__tags" href="/tags/LOWER/">LOWER</a><a class="post-meta__tags" href="/tags/LTRIM/">LTRIM</a><a class="post-meta__tags" href="/tags/RTRIM/">RTRIM</a><a class="post-meta__tags" href="/tags/REPLACE/">REPLACE</a><a class="post-meta__tags" href="/tags/REVERSE/">REVERSE</a><a class="post-meta__tags" href="/tags/SPACE/">SPACE</a><a class="post-meta__tags" href="/tags/SUBSTRING/">SUBSTRING</a><a class="post-meta__tags" href="/tags/LEN/">LEN</a><a class="post-meta__tags" href="/tags/REPLICATE/">REPLICATE</a><a class="post-meta__tags" href="/tags/CONCAT/">CONCAT</a><a class="post-meta__tags" href="/tags/CONCAT-WS/">CONCAT_WS</a><a class="post-meta__tags" href="/tags/PATINDEX/">PATINDEX</a></div><div class="post_share"></div></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Riley Lin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://rileylin91.github.io/2020/06/12/MSSQL-14-StringFunctions/">http://rileylin91.github.io/2020/06/12/MSSQL-14-StringFunctions/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/2020/06/12/MSSQL-13-AggregateFunctions/"><img class="next_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">【MS SQL】聚合函數（Aggregate Functions）</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/06/12/MSSQL-13-AggregateFunctions/" title="【MS SQL】聚合函數（Aggregate Functions）"><img class="relatedPosts_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-06-12</div><div class="relatedPosts_title">【MS SQL】聚合函數（Aggregate Functions）</div></div></a></div><div class="relatedPosts_item"><a href="/2020/05/06/MSSQL-1-SQL-Introduction/" title="【MS SQL】Structured Query Language Introduction"><img class="relatedPosts_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-06</div><div class="relatedPosts_title">【MS SQL】Structured Query Language Introduction</div></div></a></div><div class="relatedPosts_item"><a href="/2020/06/07/MSSQL-11-Diagram/" title="【MS SQL】建立資料庫圖表"><img class="relatedPosts_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-06-07</div><div class="relatedPosts_title">【MS SQL】建立資料庫圖表</div></div></a></div></div><div class="clear_both"></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 <i class="fa fa-rocket fa-spin" aria-hidden="true" style="color:yellow"></i> Riley Lin</div><div class="framework-info"><span>Driven </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="Read Mode"></i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="Dark Mode"></i></div><div id="rightside-config-show"><div id="rightside_config" title="Setting"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="Table of Contents" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="Back to top" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script></body></html>
