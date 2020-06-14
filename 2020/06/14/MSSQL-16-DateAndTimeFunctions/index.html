@@ -1,0 +1,243 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【MS SQL】日期函數（Date and Time Functions） | 伍夜黃昏之時</title><meta name="description" content="前言SQL 內建函數有多種，而最常使用的四大函數分別為聚合函數（Aggregate Functions）&amp; 字串函數（String Functions）&amp; 數值函數（Mathematical Functions）&amp; 日期函數（Date and Time Functions）。 正文前面介紹關於字串及數值的函數，當然也不能少了日期函數，在 Data 的世界裡，個人認為最難處理"><meta name="keywords" content="MS SQL"><meta name="author" content="Riley Lin"><meta name="copyright" content="Riley Lin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="【MS SQL】日期函數（Date and Time Functions）"><meta name="twitter:description" content="前言SQL 內建函數有多種，而最常使用的四大函數分別為聚合函數（Aggregate Functions）&amp; 字串函數（String Functions）&amp; 數值函數（Mathematical Functions）&amp; 日期函數（Date and Time Functions）。 正文前面介紹關於字串及數值的函數，當然也不能少了日期函數，在 Data 的世界裡，個人認為最難處理"><meta name="twitter:image" content="http://rileylin91.github.io/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><meta property="og:type" content="article"><meta property="og:title" content="【MS SQL】日期函數（Date and Time Functions）"><meta property="og:url" content="http://rileylin91.github.io/2020/06/14/MSSQL-16-DateAndTimeFunctions/"><meta property="og:site_name" content="伍夜黃昏之時"><meta property="og:description" content="前言SQL 內建函數有多種，而最常使用的四大函數分別為聚合函數（Aggregate Functions）&amp; 字串函數（String Functions）&amp; 數值函數（Mathematical Functions）&amp; 日期函數（Date and Time Functions）。 正文前面介紹關於字串及數值的函數，當然也不能少了日期函數，在 Data 的世界裡，個人認為最難處理"><meta property="og:image" content="http://rileylin91.github.io/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><meta property="article:published_time" content="2020-06-14T08:44:29.000Z"><meta property="article:modified_time" content="2020-06-14T09:56:05.158Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://rileylin91.github.io/2020/06/14/MSSQL-16-DateAndTimeFunctions/"><link rel="next" title="【MS SQL】數值函數（Mathematical Functions）" href="http://rileylin91.github.io/2020/06/12/MSSQL-15-MathematicalFunctions/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days',
+  runtime: true,
+  copyright: {"languages":{"author":"Author: Riley Lin","link":"Link: ","source":"Source: 伍夜黃昏之時","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source."}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/202015_200603_0048_1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">17</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">81</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">Categories</div><div class="length_num">4</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#YEAR"><span class="toc-number">2.1.</span> <span class="toc-text">YEAR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MONTH"><span class="toc-number">2.2.</span> <span class="toc-text">MONTH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DAY"><span class="toc-number">2.3.</span> <span class="toc-text">DAY</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GETDATE"><span class="toc-number">2.4.</span> <span class="toc-text">GETDATE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GETUTCDATE"><span class="toc-number">2.5.</span> <span class="toc-text">GETUTCDATE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SYSDATETIME"><span class="toc-number">2.6.</span> <span class="toc-text">SYSDATETIME</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SYSUTCDATETIME"><span class="toc-number">2.7.</span> <span class="toc-text">SYSUTCDATETIME</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SYSDATETIMEOFFSET"><span class="toc-number">2.8.</span> <span class="toc-text">SYSDATETIMEOFFSET</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DATEPART"><span class="toc-number">2.9.</span> <span class="toc-text">DATEPART</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DATENAME"><span class="toc-number">2.10.</span> <span class="toc-text">DATENAME</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DATEADD"><span class="toc-number">2.11.</span> <span class="toc-text">DATEADD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ISDATE"><span class="toc-number">2.12.</span> <span class="toc-text">ISDATE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#結語"><span class="toc-number">3.</span> <span class="toc-text">結語</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">伍夜黃昏之時</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">【MS SQL】日期函數（Date and Time Functions）</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="Created 2020-06-14 16:44:29"><i class="fa fa-calendar" aria-hidden="true"></i> Created 2020-06-14</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="Updated 2020-06-14 17:56:05"><i class="fa fa-history" aria-hidden="true"></i> Updated 2020-06-14</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/MS-SQL/">MS SQL</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/MS-SQL/Basic/">Basic</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>Word count:</span><span class="word-count">903</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>Reading time: 3 min</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>Post View:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>SQL 內建函數有多種，而最常使用的四大函數分別為聚合函數（Aggregate Functions）&amp; 字串函數（String Functions）&amp; 數值函數（Mathematical Functions）&amp; 日期函數（Date and Time Functions）。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>前面介紹關於字串及數值的函數，當然也不能少了日期函數，在 Data 的世界裡，個人認為最難處理的就是日期了，總是有讓人意想不到的情況…</p>
+<table>
+<thead>
+<tr>
+<th>本文會介紹</th>
+<th>不會介紹</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>YEAR</td>
+<td>CURRENT_TIMESTAMP</td>
+</tr>
+<tr>
+<td>MONTH</td>
+<td>TODATETIMEOFFSET</td>
+</tr>
+<tr>
+<td>DAY</td>
+<td>TIMEFROMPARTS</td>
+</tr>
+<tr>
+<td>GETDATE</td>
+<td>SWITCHOFFSET</td>
+</tr>
+<tr>
+<td>GETUTCDATE</td>
+<td>SMALLDATETIMEFROMPARTS</td>
+</tr>
+<tr>
+<td>SYSDATETIME</td>
+<td>DATETIMEOFFSETFROMPARTS</td>
+</tr>
+<tr>
+<td>SYSUTCDATETIME</td>
+<td>EOMONTH</td>
+</tr>
+<tr>
+<td>SYSDATETIMEOFFSET</td>
+<td>DATETIMEFROMPARTS</td>
+</tr>
+<tr>
+<td>DATEPART</td>
+<td>DATETIME2FROMPARTS</td>
+</tr>
+<tr>
+<td>DATENAME</td>
+<td>DATEFROMPARTS</td>
+</tr>
+<tr>
+<td>DATEADD</td>
+<td>DATEDIFF</td>
+</tr>
+<tr>
+<td>ISDATE</td>
+<td>DATEDIFF_BIG</td>
+</tr>
+<tr>
+<td></td>
+<td>@@DATEFIRST</td>
+</tr>
+</tbody></table>
+<h3 id="YEAR"><a href="#YEAR" class="headerlink" title="YEAR"></a>YEAR</h3><p>傳回指定日期中年的部分，回傳 int</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：YEAR(date)</strong></p>
+<p>取得 2020/6/14 年的部分 <code>SELECT YEAR('2020/6/14')</code></p>
+<img src="./MSSQL_DateAndTimeFunctions-YEAR.png" align="left">
+
+<h3 id="MONTH"><a href="#MONTH" class="headerlink" title="MONTH"></a>MONTH</h3><p>傳回指定日期中月的部分，回傳 int</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：MONTH(date)</strong></p>
+<p>取得 2020/6/14 月的部分 <code>SELECT MONTH('2020/6/14')</code></p>
+<img src="./MSSQL_DateAndTimeFunctions-MONTH.png" align="left">
+
+<h3 id="DAY"><a href="#DAY" class="headerlink" title="DAY"></a>DAY</h3><p>傳回指定日期日的部分，回傳 int</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：DAY(datetime)</strong></p>
+<p>取得 2020/6/14 日的部分 <code>SELECT DAY('2020/6/14')</code></p>
+<img src="./MSSQL_DateAndTimeFunctions-DAY.png" align="left">
+
+<h3 id="GETDATE"><a href="#GETDATE" class="headerlink" title="GETDATE"></a>GETDATE</h3><p>用來取得資料庫系統時間，通常使用於取得當下日期或時間，回傳 datetime Type</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：GETDATE()</strong></p>
+<p>取得當下資料庫系統時間 <code>SELECT GETDATE()</code></p>
+<img src="./MSSQL_DateAndTimeFunctions-GETDATE.png" align="left">
+
+<h3 id="GETUTCDATE"><a href="#GETUTCDATE" class="headerlink" title="GETUTCDATE"></a>GETUTCDATE</h3><p>取得目前 UTC 國際標準時間，回傳 datetime Type</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：GETUTCDATE()</strong></p>
+<p>取得國際標準時間 <code>SELECT GETUTCDATE()</code></p>
+<img src="./MSSQL_DateAndTimeFunctions-GETUTCDATE.png" align="left">
+
+<h3 id="SYSDATETIME"><a href="#SYSDATETIME" class="headerlink" title="SYSDATETIME"></a>SYSDATETIME</h3><p>與 GETDATE 一樣是取得資料庫系統時間，回傳比 GETDATE 還多的秒數有效位數，回傳 datetime2(7) Type</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：SYSDATETIME</strong></p>
+<p>SYSDATETIME 比 GETDATE 多出 4 位秒數 <code>SELECT SYSDATETIME() AS 'SYSDATETIME', GETDATE() AS 'GETDATE'</code></p>
+<img src="./MSSQL_DateAndTimeFunctions-SYSDATETIME.png" align="left">
+
+<h3 id="SYSUTCDATETIME"><a href="#SYSUTCDATETIME" class="headerlink" title="SYSUTCDATETIME"></a>SYSUTCDATETIME</h3><p>與 GETUTCDATE 相同，用來取得 UTC 國際標準時間，倆差別於 SYSUTCDATETIME 比 GETUTCDATE 多出較多的秒數有效位數，回傳 datetime2</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：SYSUTCDATETIME()</strong></p>
+<p>SYSUTCDATETIME 比 GETUTCDATE 多出 4 位秒數</p>
+<figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  <span class="keyword">SYSUTCDATETIME</span>() <span class="keyword">AS</span> <span class="string">'SYSUTCDATETIME'</span>, </span><br><span class="line">  <span class="keyword">GETUTCDATE</span>() <span class="keyword">AS</span> <span class="string">'GETUTCDATE'</span></span><br></pre></td></tr></tbody></table></figure>
+
+<img src="./MSSQL_DateAndTimeFunctions-SYSUTCDATETIME.png" align="left">
+
+<h3 id="SYSDATETIMEOFFSET"><a href="#SYSDATETIMEOFFSET" class="headerlink" title="SYSDATETIMEOFFSET"></a>SYSDATETIMEOFFSET</h3><p>取得當下資料庫系統時間且包含時區，回傳 datetimeoffset(7)</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：SYSDATETIMEOFFSET()</strong></p>
+<p>取得當下時間包含時區 <code>SELECT SYSDATETIMEOFFSET()</code></p>
+<img src="./MSSQL_DateAndTimeFunctions-SYSDATETIMEOFFSET.png" align="left">
+
+<h3 id="DATEPART"><a href="#DATEPART" class="headerlink" title="DATEPART"></a>DATEPART</h3><p>除了 YEAR、MONTH、DAY 還可使用 DATEPART 來取得指定日期指定的部分，DATEPART 能取得更多的部分如：時、分、秒等。回傳整數型態</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：DATEPART(datepart, date)</strong></p>
+<figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  <span class="keyword">DATEPART</span>(<span class="keyword">YEAR</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'YEAR'</span>,</span><br><span class="line">  <span class="keyword">DATEPART</span>(<span class="keyword">MONTH</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'MONTH'</span>,</span><br><span class="line">  <span class="keyword">DATEPART</span>(<span class="keyword">DAY</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'DAY'</span>,</span><br><span class="line">  <span class="keyword">DATEPART</span>(<span class="keyword">HOUR</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'HOUR'</span>,</span><br><span class="line">  <span class="keyword">DATEPART</span>(<span class="keyword">MINUTE</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'MINUTE'</span>,</span><br><span class="line">  <span class="keyword">DATEPART</span>(<span class="keyword">SECOND</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'SECOND'</span>,</span><br><span class="line">  <span class="keyword">DATEPART</span>(<span class="keyword">QUARTER</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'QUARTER'</span>,</span><br><span class="line">  <span class="keyword">DATEPART</span>(<span class="keyword">DAYOFYEAR</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'DAYOFYEAR'</span>,</span><br><span class="line">  <span class="keyword">DATEPART</span>(<span class="keyword">WEEK</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'WEEK'</span>,</span><br><span class="line">  <span class="keyword">DATEPART</span>(<span class="keyword">WEEKDAY</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'WEEKDAY'</span>,</span><br><span class="line">  <span class="keyword">DATEPART</span>(MILLISECOND, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'MILLISECOND'</span>,</span><br><span class="line">  <span class="keyword">DATEPART</span>(<span class="keyword">MICROSECOND</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'MICROSECOND'</span>,</span><br><span class="line">  <span class="keyword">DATEPART</span>(NANOSECOND, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'NANOSECOND'</span></span><br></pre></td></tr></tbody></table></figure>
+
+<img src="./MSSQL_DateAndTimeFunctions-DATEPART.png" align="left">
+
+<h3 id="DATENAME"><a href="#DATENAME" class="headerlink" title="DATENAME"></a>DATENAME</h3><p>DATENAME 與 DATEPART 基本上是相同的，不同的是 DATENAME 會回傳字串型態。</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：DATENAME(datepart, date)</strong></p>
+<p>取得當下日期年的部分在加上字串 1 DATEPART 與 DATENAME 差別顯而易見</p>
+<p><code>SELECT DATENAME(YEAR, GETDATE())+'1' AS 'DATENAME', DATEPART(YEAR, GETDATE())+'1' AS 'DATEPART'</code></p>
+<img src="./MSSQL_DateAndTimeFunctions-DATENAME.png" align="left">
+
+<h3 id="DATEADD"><a href="#DATEADD" class="headerlink" title="DATEADD"></a>DATEADD</h3><p>對指定的日期累加值，如取得當下日期增加一年</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：DATEADD(datepart, num, date)</strong></p>
+<figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">  <span class="keyword">DATEADD</span>(<span class="keyword">YEAR</span>, <span class="number">1</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'YEAR'</span>,</span><br><span class="line">  <span class="keyword">DATEADD</span>(<span class="keyword">MONTH</span>, <span class="number">1</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'MONTH'</span>,</span><br><span class="line">  <span class="keyword">DATEADD</span>(<span class="keyword">DAY</span>, <span class="number">1</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'DAY'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  <span class="keyword">DATEADD</span>(<span class="keyword">HOUR</span>, <span class="number">1</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'HORU'</span>,</span><br><span class="line">  <span class="keyword">DATEADD</span>(<span class="keyword">MINUTE</span>, <span class="number">1</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'MINUTE'</span>,</span><br><span class="line">  <span class="keyword">DATEADD</span>(<span class="keyword">SECOND</span>, <span class="number">1</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'SECOND'</span>,</span><br><span class="line">  <span class="keyword">DATEADD</span>(MILLISECOND, <span class="number">10</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'MILLISECOND'</span></span><br><span class="line"> 	</span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  <span class="keyword">DATEADD</span>(<span class="keyword">QUARTER</span>, <span class="number">1</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'QUARTER'</span>,</span><br><span class="line">  <span class="keyword">DATEADD</span>(<span class="keyword">DAYOFYEAR</span>, <span class="number">10</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'DAYOFYEAR'</span>,</span><br><span class="line">  <span class="keyword">DATEADD</span>(<span class="keyword">WEEK</span>, <span class="number">10</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'WEEK'</span>,</span><br><span class="line">  <span class="keyword">DATEADD</span>(<span class="keyword">WEEKDAY</span>, <span class="number">10</span>, <span class="keyword">GETDATE</span>()) <span class="keyword">AS</span> <span class="string">'WEEKDAY'</span></span><br></pre></td></tr></tbody></table></figure>
+
+<img src="./MSSQL_DateAndTimeFunctions-DATEADD.png" align="left">
+
+<h3 id="ISDATE"><a href="#ISDATE" class="headerlink" title="ISDATE"></a>ISDATE</h3><p>用來判斷是否為有效日期或時間，有效返回 1 ，無效則返回 0</p>
+<p><span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png?v8">📕</span> <strong>語法：ISDATE(expression)</strong></p>
+<p>分別判斷 2020-12-31 &amp; 2020/12/31 &amp; 123 是否為有效日期<br><code>SELECT ISDATE('2020-12-31'), ISDATE('2020/12/31'), ISDATE('123')</code></p>
+<img src="./MSSQL_DateAndTimeFunctions-ISDATE.png" align="left">
+
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>使用日期函數取得 YEAR、MONTH、DAY 時要注意，若未提供年月日，僅提供時間的部分，SQL SERVER 會回傳 1900/1/1。</p>
+<figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">YEAR</span>(<span class="string">'13:12:11'</span>)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">YEAR</span>(<span class="number">0</span>), <span class="keyword">MONTH</span>(<span class="number">0</span>), <span class="keyword">DAY</span>(<span class="number">0</span>)</span><br></pre></td></tr></tbody></table></figure>
+<img src="./MSSQL_DateAndTimeFunctions-REFERENCE.png" align="left">
+
+<hr>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a><strong><em>Reference</em></strong></h2><script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script></div><hr><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MS-SQL/">MS SQL</a></div><div class="post_share"></div></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Riley Lin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://rileylin91.github.io/2020/06/14/MSSQL-16-DateAndTimeFunctions/">http://rileylin91.github.io/2020/06/14/MSSQL-16-DateAndTimeFunctions/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/2020/06/12/MSSQL-15-MathematicalFunctions/"><img class="next_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">【MS SQL】數值函數（Mathematical Functions）</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> Recommend</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/06/07/MSSQL-11-Diagram/" title="【MS SQL】建立資料庫圖表"><img class="relatedPosts_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-06-07</div><div class="relatedPosts_title">【MS SQL】建立資料庫圖表</div></div></a></div><div class="relatedPosts_item"><a href="/2020/05/06/MSSQL-1-SQL-Introduction/" title="【MS SQL】Structured Query Language Introduction"><img class="relatedPosts_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-06</div><div class="relatedPosts_title">【MS SQL】Structured Query Language Introduction</div></div></a></div><div class="relatedPosts_item"><a href="/2020/06/01/MSSQL-10-Relationship/" title="【MS SQL】關聯的種類"><img class="relatedPosts_cover" src="/img/400E7B56-940B-479C-9DCE-BF38B4F01777.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-06-01</div><div class="relatedPosts_title">【MS SQL】關聯的種類</div></div></a></div></div><div class="clear_both"></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 <i class="fa fa-rocket fa-spin" aria-hidden="true" style="color:yellow"></i> Riley Lin</div><div class="framework-info"><span>Driven </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="Read Mode"></i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="Dark Mode"></i></div><div id="rightside-config-show"><div id="rightside_config" title="Setting"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="Table of Contents" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="Back to top" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script></body></html>
